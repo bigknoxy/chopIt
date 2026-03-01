@@ -1,0 +1,25 @@
+{
+  "name": "chop-it-like-its-hawt",
+  "version": "1.0.0",
+  "description": "A relaxing incremental idle mobile game where you chop trees to collect wood",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "tsc --noEmit",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": ["game", "idle", "incremental", "mobile", "pwa"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^25.3.2",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
+    "vite-plugin-pwa": "^1.2.0"
+  },
+  "dependencies": {
+    "workbox-window": "^7.4.0"
+  }
+}

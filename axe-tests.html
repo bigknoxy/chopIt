@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Axe Rendering Test Suite</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a1a;
+        }
+        
+        #axe-tests {
+            display: none;
+        }
+        
+        .test-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            padding: 20px;
+            overflow: auto;
+        }
+        
+        .test-title {
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .test-canvas {
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+        
+        .test-results {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .summary {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .detail-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .detail-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border-left: 4px solid;
+        }
+        
+        .passed {
+            border-left-color: #28a745;
+            color: #155724;
+            background: #d4edda;
+        }
+        
+        .failed {
+            border-left-color: #dc3545;
+            color: #721c24;
+            background: #f8d7da;
+        }
+        
+        .final-verdict {
+            margin-top: 20px;
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+        }
+        
+        .verdict-passed {
+            background: #28a745;
+            color: white;
+        }
+        
+        .verdict-failed {
+            background: #dc3545;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="axe-tests">
+        <div class="test-container">
+            <h1 class="test-title">🔧 Axe Rendering Test Suite</h1>
+            <button class="close-btn" onclick="closeTests()">❌ Close</button>
+            
+            <div id="test-results">
+                <div class="test-results">
+                    <div class="summary" id="summary"></div>
+                    <ul class="detail-list" id="detail-list"></ul>
+                    <div id="final-verdict"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/src/ui/renderer/AxeRenderer.js"></script>
+    <script src="/src/data/axes.js"></script>
+    <script src="/axe-testing.js"></script>
+    
+    <script>
+        function closeTests() {
+            document.getElementById('axe-tests').style.display = 'none';
+        }
+        
+        function showTests() {
+            document.getElementById('axe-tests').style.display = 'block';
+            
+            // Initialize and run tests
+            const axeTester = new AxeTestingTool();
+            axeTester.initialize();
+            axeTester.testAllAxes();
+        }
+        
+        // Show tests automatically
+        showTests();
+    </script>
+</body>
+</html>
