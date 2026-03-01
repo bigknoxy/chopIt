@@ -1,6 +1,6 @@
 # Chop it like it's HAWT
 
-A relaxing incremental idle mobile game where you chop trees to collect wood, unlock new tree types, and invest resources into a persistent upgrade tree.
+A relaxing incremental idle mobile game where you chop trees to collect wood, unlock new tree types, and invest resources into a persistent upgrade tree. Features procedural axe rendering with 5 unique axe tiers, each with distinct visual styles and effects.
 
 ## Quick Start
 
