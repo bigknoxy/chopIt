@@ -20,6 +20,7 @@ import { formatNumber } from './utils';
 import { AxeAnimationState, SWING_DURATION_MS, CRIT_FLASH_DURATION_MS } from './core/types';
 import { AxeRenderer } from './ui/renderer/AxeRenderer';
 import { getAxe } from './data/axes';
+import { getTreeDefinition } from './data/treeTypes';
 
 export class Game {
   private gameLoop: GameLoop;
@@ -213,6 +214,20 @@ export class Game {
       result.isCrit
     );
 
+    const axeDef = getAxe(state.player.equippedAxeId);
+    const treeDef = getTreeDefinition(tree.defId);
+    const particleConfig = axeDef?.visual?.particles;
+    const woodTypeId = treeDef?.woodTypeId ?? 'basic';
+
+    this.effectSystem.triggerHitEffects(
+      tree.x,
+      tree.y - 50,
+      particleConfig,
+      result.isCrit,
+      woodTypeId,
+      state.player.settings.reducedMotion
+    );
+
     if (result.isCrit) {
       this.hapticsAdapter.medium();
       this.audioAdapter.play('crit');
@@ -289,8 +304,12 @@ export class Game {
     });
   }
 
-  private update(deltaTime: number): void {
-    // Update axe animation
+private update(deltaTime: number): void {
+  if (!this.effectSystem.update(deltaTime)) {
+    return;
+  }
+  
+  // Update axe animation
     if (this.axeAnimState.swingProgress < 1) {
       this.axeAnimState.swingProgress = Math.min(1, 
         this.axeAnimState.swingProgress + deltaTime / SWING_DURATION_MS
@@ -339,8 +358,6 @@ export class Game {
       this.stateManager.updatePlayer(newPlayer);
     }
 
-    this.effectSystem.update(deltaTime);
-
     if (this.forestSystem.checkUnlock(this.stateManager.getState())) {
       const newPlayer = this.forestSystem.unlock(this.stateManager.getState());
       this.stateManager.updatePlayer(newPlayer);
@@ -352,12 +369,18 @@ export class Game {
     const state = this.stateManager.getState();
 
     this.ctx.clearRect(0, 0, this.width, this.height);
+    
+    this.ctx.save();
+    this.effectSystem.applyScreenShake(this.ctx);
 
     this.renderBackground();
     this.renderTree(state.activeTree);
     this.renderAxe(state);
+    this.effectSystem.renderParticles(this.ctx);
     this.renderEffects();
     this.renderUI(state);
+  
+    this.ctx.restore();
   }
 
   private renderBackground(): void {

@@ -37,6 +37,9 @@ export class AxeRenderer {
     const tierScale = 1 + (axeDef.tier - 1) * 0.1;
     ctx.scale(tierScale, tierScale);
     
+    const squash = this.calculateSquashStretch(animState.swingProgress);
+    ctx.scale(squash.scaleX, squash.scaleY);
+    
     // Draw glow effect first (behind blade)
     if (visual.hasGlow && visual.glowColor) {
       this.drawGlow(ctx, visual);
@@ -46,11 +49,11 @@ export class AxeRenderer {
     this.drawHandle(ctx, visual);
     
     // Draw blade based on shape
-    this.drawBlade(ctx, visual, animState);
+    this.drawBlade(ctx, visual);
     
     // Draw shine effect
     if (visual.shineEffect) {
-      this.drawShine(ctx, visual);
+      this.drawShine(ctx);
     }
     
     // Draw crit flash overlay
@@ -62,19 +65,19 @@ export class AxeRenderer {
   }
   
   private calculateSwingAngle(progress: number): number {
-    // Swing from 0 to -45 degrees (forward), then back
-    // Peak at progress 0.5
-    const peakProgress = 0.5;
-    const maxSwing = -Math.PI / 4; // -45 degrees
+    const maxSwing = -Math.PI / 4;
     
-    if (progress <= peakProgress) {
-      // Forward swing: ease out
-      const t = progress / peakProgress;
-      return maxSwing * this.easeOutQuad(t);
+    if (progress <= 0.20) {
+      const t = progress / 0.20;
+      return -maxSwing * 0.3 * this.easeInQuad(t);
+    } else if (progress <= 0.55) {
+      const t = (progress - 0.20) / 0.35;
+      return -maxSwing * 0.3 + maxSwing * 1.3 * this.easeOutQuart(t);
+    } else if (progress <= 0.60) {
+      return maxSwing;
     } else {
-      // Return swing: ease in
-      const t = (progress - peakProgress) / (1 - peakProgress);
-      return maxSwing * (1 - this.easeInQuad(t));
+      const t = (progress - 0.60) / 0.40;
+      return maxSwing * (1 - this.easeOutBack(t));
     }
   }
   
@@ -84,6 +87,31 @@ export class AxeRenderer {
   
   private easeInQuad(t: number): number {
     return t * t;
+  }
+
+  private easeOutQuart(t: number): number {
+    return 1 - Math.pow(1 - t, 4);
+  }
+
+  private easeOutBack(t: number): number {
+    const c1 = 1.70158;
+    const c3 = c1 + 1;
+    return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+  }
+
+  private calculateSquashStretch(progress: number): { scaleX: number; scaleY: number } {
+    if (progress <= 0.20) {
+      const t = progress / 0.20;
+      return { scaleX: 1, scaleY: 1 + 0.1 * t };
+    } else if (progress <= 0.55) {
+      const t = (progress - 0.20) / 0.35;
+      return { scaleX: 1 + 0.15 * t, scaleY: 1 - 0.1 * t };
+    } else if (progress <= 0.60) {
+      return { scaleX: 1.15, scaleY: 0.9 };
+    } else {
+      const t = (progress - 0.60) / 0.40;
+      return { scaleX: 1.15 - 0.15 * t, scaleY: 0.9 + 0.1 * t };
+    }
   }
   
   private drawGlow(ctx: CanvasRenderingContext2D, visual: AxeVisualConfig): void {
@@ -235,7 +263,7 @@ export class AxeRenderer {
     ctx.fill();
     
     // Facet lines
-    ctx.strokeStyle = this.lightenColor(visual.bladeColor, 0.4);
+    ctx.strokeStyle = this.lightenColor(ctx.fillStyle as string, 0.4);
     ctx.lineWidth = 1;
     
     // Top facet

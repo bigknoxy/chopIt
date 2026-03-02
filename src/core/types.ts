@@ -185,6 +185,44 @@ export interface FloatingText {
   velocityY: number;
 }
 
+export interface ParticleConfig {
+  chipCount: number;
+  chipSizeRange: [number, number];
+  shakeIntensity: number;
+  hitPauseMs: number;
+  impactRadius: number;
+  specialColors?: string[];
+  hasTrail: boolean;
+}
+
+export interface WoodChip {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+  color: string;
+  rotation: number;
+  rotationSpeed: number;
+  life: number;
+  maxLife: number;
+}
+
+export interface ImpactRing {
+  x: number;
+  y: number;
+  radius: number;
+  maxRadius: number;
+  alpha: number;
+  color: string;
+}
+
+export interface ScreenShakeState {
+  intensity: number;
+  offsetX: number;
+  offsetY: number;
+}
+
 export interface SaveData {
   version: number;
   player: PlayerState;
@@ -206,6 +244,7 @@ export interface AxeVisualConfig {
   hasGlow: boolean;
   glowColor?: string;
   shineEffect: boolean;
+  particles?: ParticleConfig;
 }
 
 export const SAVE_KEY = 'chop_it_save';
@@ -224,3 +263,8 @@ export const FOREST_UNLOCK_PLAYTIME_MS = 15 * 60 * 1000;
 
 export const SWING_DURATION_MS = 150;
 export const CRIT_FLASH_DURATION_MS = 200;
+
+export const HIT_PAUSE_BASE_MS = 30;
+export const SCREEN_SHAKE_DECAY = 0.9;
+export const MAX_PARTICLES = 150;
+export const PARTICLE_GRAVITY = 400;
