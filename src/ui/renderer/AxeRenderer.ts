@@ -81,10 +81,6 @@ export class AxeRenderer {
     }
   }
   
-  private easeOutQuad(t: number): number {
-    return t * (2 - t);
-  }
-  
   private easeInQuad(t: number): number {
     return t * t;
   }

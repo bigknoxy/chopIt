@@ -57,13 +57,6 @@ export class Game {
   private readonly TAP_COOLDOWN = 50;
   private readonly HOLD_INTERVAL = 100;
 
-  private static readonly TAP_COOLDOWN_MS = 50;
-  private static readonly HOLD_INTERVAL_MS = 100;
-  private static readonly RENDER_PADDING = 16;
-  private static readonly HP_BAR_WIDTH = 100;
-  private static readonly HP_BAR_HEIGHT = 8;
-  private static readonly HP_BAR_X_OFFSET = -50;
-  private static readonly HP_BAR_Y_OFFSET = -200;
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
