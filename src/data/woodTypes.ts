@@ -40,6 +40,14 @@ export const WOOD_TYPES: Record<string, WoodType> = {
 
 export const WOOD_TYPE_ORDER = ['basic', 'oak', 'maple', 'amber', 'ancient'] as const;
 
+export const WOOD_CHIP_COLORS: Record<string, string[]> = {
+  basic: ['#8B7355', '#9E8466', '#7A6248'],
+  oak: ['#6B4423', '#7D5530', '#5A3A1D'],
+  maple: ['#D2691E', '#E07B30', '#C45A10'],
+  amber: ['#FFBF00', '#FFCC33', '#E5AB00'],
+  ancient: ['#9400D3', '#A820E8', '#8000B0']
+};
+
 export function getWoodType(id: string): WoodType | undefined {
   return WOOD_TYPES[id];
 }

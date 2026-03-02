@@ -17,7 +17,15 @@ export const AXES: Record<string, AxeDefinition> = {
       bladeHeight: 1.0,
       bladeShape: 'wedge',
       hasGlow: false,
-      shineEffect: false
+      shineEffect: false,
+      particles: {
+        chipCount: 6,
+        chipSizeRange: [2, 4],
+        shakeIntensity: 3,
+        hitPauseMs: 20,
+        impactRadius: 25,
+        hasTrail: false
+      }
     }
   },
   iron_axe: {
@@ -35,7 +43,15 @@ export const AXES: Record<string, AxeDefinition> = {
       bladeHeight: 1.1,
       bladeShape: 'wide',
       hasGlow: false,
-      shineEffect: false
+      shineEffect: false,
+      particles: {
+        chipCount: 8,
+        chipSizeRange: [3, 5],
+        shakeIntensity: 4,
+        hitPauseMs: 25,
+        impactRadius: 30,
+        hasTrail: false
+      }
     }
   },
   steel_axe: {
@@ -56,7 +72,15 @@ export const AXES: Record<string, AxeDefinition> = {
       bladeHeight: 1.2,
       bladeShape: 'jagged',
       hasGlow: false,
-      shineEffect: true
+      shineEffect: true,
+      particles: {
+        chipCount: 10,
+        chipSizeRange: [3, 6],
+        shakeIntensity: 5,
+        hitPauseMs: 30,
+        impactRadius: 35,
+        hasTrail: false
+      }
     }
   },
   gilded_axe: {
@@ -81,7 +105,16 @@ export const AXES: Record<string, AxeDefinition> = {
       bladeShape: 'ornate',
       hasGlow: true,
       glowColor: '#FFD700',
-      shineEffect: true
+      shineEffect: true,
+      particles: {
+        chipCount: 12,
+        chipSizeRange: [4, 7],
+        shakeIntensity: 7,
+        hitPauseMs: 40,
+        impactRadius: 45,
+        specialColors: ['#FFD700', '#FFA500'],
+        hasTrail: true
+      }
     }
   },
   ancient_axe: {
@@ -106,7 +139,16 @@ export const AXES: Record<string, AxeDefinition> = {
       bladeShape: 'crystal',
       hasGlow: true,
       glowColor: '#9932CC',
-      shineEffect: true
+      shineEffect: true,
+      particles: {
+        chipCount: 15,
+        chipSizeRange: [4, 8],
+        shakeIntensity: 9,
+        hitPauseMs: 50,
+        impactRadius: 55,
+        specialColors: ['#9932CC', '#DA70D6'],
+        hasTrail: true
+      }
     }
   }
 };
